@@ -22,10 +22,6 @@ provider:
     GOOGLE_SECRET_NAME: 'google-recaptcha-secret'
     STAGE: '${self:custom.stage}'
 
-custom:
-    stage: ${opt:stage, self:provider.stage}
-    pythonRequirements:
-      dockerizePip: non-linux
 
 package:
   exclude:
@@ -37,6 +33,22 @@ package:
 functions:
   contactme:
     handler: src/contactme/contactme.lambda_handler
+
+custom:
+  stage: ${opt:stage, self:provider.stage}
+  vars: ${file(serverless_vars.yml):${self:custom.stage}}
+  customDomain:
+    domainName: "${self:custom.vars.RECORD}"
+    basePath: 'prod'
+    stage: 'prod' #keep stage as prod only for api gateway
+    enabled: true
+  pythonRequirements:
+    dockerizePip: non-linux
+
+
+plugins:
+  - serverless-python-requirements
+  - serverless-domain-manager
 
 resources:
   Resources:
@@ -142,7 +154,3 @@ resources:
                 - ':'
                 - Ref: ApiGatewayContactUs
                 - '/*/*'
-
-plugins:
-  - serverless-python-requirements
-  - serverless-iam-roles-per-function

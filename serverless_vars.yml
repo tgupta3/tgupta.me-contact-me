@@ -1,0 +1,10 @@
+default: &default
+  <<: *default
+  RECORD: "staging-api.tgupta.me"
+
+dev:
+  <<: *default
+
+prod:
+  <<: *default
+  RECORD: "prod-api.tgupta.me"
