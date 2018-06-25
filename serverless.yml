@@ -55,7 +55,7 @@ resources:
     ApiGatewayContactUs:
       Type: AWS::ApiGateway::RestApi
       Properties:
-        Name: tgupta-me-contact-me
+        Name: tgupta-me-contact-me-${self:custom.stage}
 
     ApiGatewayResource:
       Type: AWS::ApiGateway::Resource
