@@ -21,7 +21,8 @@ provider:
   environment:
     GOOGLE_SECRET_NAME: 'google-recaptcha-secret'
     STAGE: '${self:custom.stage}'
-
+  #apiGateway:
+    #restApiId: ApiGatewayContactUs
 
 package:
   exclude:
@@ -44,7 +45,6 @@ custom:
     enabled: true
   pythonRequirements:
     dockerizePip: non-linux
-
 
 plugins:
   - serverless-python-requirements
@@ -139,6 +139,8 @@ resources:
 
     ContactUsFunctionPermission:
         Type: AWS::Lambda::Permission
+        DependsOn:
+        - ApiGatewayDeployment
         Properties:
           Action: lambda:invokeFunction
           FunctionName:
@@ -154,3 +156,14 @@ resources:
                 - ':'
                 - Ref: ApiGatewayContactUs
                 - '/*/*'
+
+    # ApiGatewayBasePathMapping:
+    #   Type: AWS::ApiGateway::BasePathMapping
+    #   DependsOn:
+    #   - ContactUsFunctionPermission
+    #   Properties:
+    #     BasePath: prod # Change this to whatever you want your base path to be
+    #     DomainName: ${self:custom.vars.RECORD} # Change this to however you manage your domains
+    #     RestApiId:
+    #       Ref: ApiGatewayContactUs
+    #     Stage: prod
