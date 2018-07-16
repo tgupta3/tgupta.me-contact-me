@@ -38,17 +38,12 @@ functions:
 custom:
   stage: ${opt:stage, self:provider.stage}
   vars: ${file(serverless_vars.yml):${self:custom.stage}}
-  customDomain:
-    domainName: "${self:custom.vars.RECORD}"
-    basePath: 'prod'
-    stage: 'prod' #keep stage as prod only for api gateway
-    enabled: true
   pythonRequirements:
     dockerizePip: non-linux
 
 plugins:
   - serverless-python-requirements
-  - serverless-domain-manager
+  
 
 resources:
   Resources:
@@ -157,13 +152,13 @@ resources:
                 - Ref: ApiGatewayContactUs
                 - '/*/*'
 
-    # ApiGatewayBasePathMapping:
-    #   Type: AWS::ApiGateway::BasePathMapping
-    #   DependsOn:
-    #   - ContactUsFunctionPermission
-    #   Properties:
-    #     BasePath: prod # Change this to whatever you want your base path to be
-    #     DomainName: ${self:custom.vars.RECORD} # Change this to however you manage your domains
-    #     RestApiId:
-    #       Ref: ApiGatewayContactUs
-    #     Stage: prod
+    ApiGatewayBasePathMapping:
+      Type: AWS::ApiGateway::BasePathMapping
+      DependsOn:
+      - ContactUsFunctionPermission
+      Properties:
+        BasePath: prod # Change this to whatever you want your base path to be
+        DomainName: ${self:custom.vars.RECORD} # Change this to however you manage your domains
+        RestApiId:
+          Ref: ApiGatewayContactUs
+        Stage: prod

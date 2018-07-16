@@ -1,4 +1,9 @@
 version: 0.1
+
+env:
+  variables:
+    STAGE: "dev"
+
 phases:
   install:
     commands:
@@ -8,8 +13,10 @@ phases:
       - pip install boto3
       - pip install awscli
       - npm install serverless-python-requirements --save-dev
+  pre_build:
+    commands:
+      - python pre_build/prebuild.py
 
   build:
     commands:
-      - serverless create_domain
       - serverless deploy --stage dev --verbose
