@@ -1,0 +1,52 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "VisualEditor0",
+            "Effect": "Allow",
+            "Action": [
+                "route53:ListHostedZones",
+                "acm:ListCertificates",
+                "cloudfront:UpdateDistribution",
+                "route53:ListHostedZonesByName"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "VisualEditor1",
+            "Effect": "Allow",
+            "Action": [
+                "apigateway:DELETE",
+                "route53:GetHostedZone",
+                "route53:ChangeResourceRecordSets",
+                "route53:ListResourceRecordSets",
+                "apigateway:GET"
+            ],
+            "Resource": [
+                "arn:aws:route53:::hostedzone/Z2OLZWY2HGHNUK",
+                "arn:aws:apigateway:us-east-1::/restapis/*"
+            ]
+        },
+        {
+            "Sid": "VisualEditor2",
+            "Effect": "Allow",
+            "Action": [
+                "apigateway:PUT",
+                "apigateway:POST",
+                "apigateway:GET"
+            ],
+            "Resource": [
+                "arn:aws:apigateway:us-east-1::/restapis/*",
+                "arn:aws:apigateway:us-east-1::/domainnames/*",
+                "arn:aws:apigateway:us-east-1::/restapis",
+                "arn:aws:apigateway:us-east-1::/domainnames"
+            ]
+        },
+        {
+            "Sid": "VisualEditor3",
+            "Effect": "Allow",
+            "Action": "apigateway:POST",
+            "Resource": "arn:aws:apigateway:us-east-1::/restapis/*/basepathmappings"
+        }
+    ]
+}

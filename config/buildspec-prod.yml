@@ -1,0 +1,22 @@
+version: 0.1
+
+env:
+  variables:
+    STAGE: "prod"
+
+phases:
+  install:
+    commands:
+      - npm install
+      - npm install -g serverless
+      - pip install --upgrade pip
+      - pip install boto3
+      - pip install awscli
+      - npm install serverless-python-requirements --save-dev
+  pre_build:
+    commands:
+      - python pre_build/prebuild.py
+
+  build:
+    commands:
+      - serverless deploy --stage prod --verbose
