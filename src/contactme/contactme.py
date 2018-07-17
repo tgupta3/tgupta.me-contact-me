@@ -83,6 +83,8 @@ def get_secret():
             print("The request was invalid due to:", e)
         elif e.response['Error']['Code'] == 'InvalidParameterException':
             print("The request had invalid params:", e)
+        else:
+            print (e)
     else:
         # Decrypted secret using the associated KMS CMK
         # Depending on whether the secret was a string or binary, one of these fields will be populated
@@ -92,7 +94,7 @@ def get_secret():
         else:
             binary_secret_data = get_secret_value_response['SecretBinary']
 
-    return
+    sys.exit(1)
 
 @check_dev_environment
 def publish_sns(message):
