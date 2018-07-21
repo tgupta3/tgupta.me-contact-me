@@ -9,7 +9,7 @@ from base64 import b64decode
 from botocore.exceptions import ClientError
 
 
-TOPICARN = "arn:aws:sns:us-east-1:360628722985:tgupta-me-contact-us-topic"
+TOPICARN = os.environ["SNS_TOPIC"]
 SUBJECT =  "tgupta-me-contact-us Contact Us"
 URIReCaptcha = 'https://www.google.com/recaptcha/api/siteverify'
 secret_name = os.environ["GOOGLE_SECRET_NAME"]
@@ -49,6 +49,7 @@ class check_dev_environment(object):
 
 
         if (self.get_stage() == 'dev'):
+            secret = get_secret()
             method_name = args[0]
             print method_name
             method = getattr(self, method_name, lambda: self.api_unreachable())

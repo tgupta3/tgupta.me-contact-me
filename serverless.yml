@@ -21,8 +21,9 @@ provider:
   environment:
     GOOGLE_SECRET_NAME: 'google-recaptcha-secret'
     STAGE: '${self:custom.stage}'
-  #apiGateway:
-    #restApiId: ApiGatewayContactUs
+    SNS_TOPIC: '${self:custom.snstopicArn}'
+  iamRoleStatements:
+    $ref: ./config/tgupta-me-contact-me-iam-role.json
 
 package:
   exclude:
@@ -40,10 +41,19 @@ custom:
   vars: ${file(serverless_vars.yml):${self:custom.stage}}
   pythonRequirements:
     dockerizePip: non-linux
+  snstopicArn:
+    Fn::Join:
+      - ''
+      - - 'arn:aws:sns:'
+        - Ref: AWS::Region
+        - ":"
+        - Ref: AWS::AccountId
+        - ":"
+        - "tgupta-me-contactme-topic"
 
 plugins:
   - serverless-python-requirements
-  
+
 
 resources:
   Resources:
