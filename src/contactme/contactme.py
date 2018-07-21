@@ -103,7 +103,7 @@ def publish_sns(message):
         response = client_sns.publish(
             TopicArn = TOPICARN,
             Subject = SUBJECT,
-            Message = json.dumps(message)
+            Message = json.dumps(message, indent=3)
             )
         return response
     except:
